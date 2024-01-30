@@ -1,15 +1,26 @@
 import os
-import sys
-from os import environ
 from tempfile import mkdtemp
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-options = webdriver.ChromeOptions()
-service = webdriver.ChromeService("/opt/chromedriver")
+chrome_driver_location = os.environ.get("CHROME_DRIVER_LOCATION", "/usr/bin/chromedriver")
+print(f"chrome_driver_location: {chrome_driver_location}")
 
-options.binary_location = '/opt/chrome/chrome'
+chrome_binary_location = os.environ.get("CHROME_BINARY_LOCATION", "/opt/chrome-linux64/chrome")
+print(f"chrome_binary_location: {chrome_binary_location}")
+
+for key, value in os.environ.items():
+    print(f"{key}: {value}")
+
+# Define selenium driver globally so that shared lambda contexts re-use it
+# This drastically reduces startup times
+options = webdriver.ChromeOptions()
+# service = webdriver.ChromeService("/opt/chromedriver")
+service = webdriver.ChromeService(chrome_driver_location)
+
+# options.binary_location = '/opt/chrome/chrome'
+options.binary_location = chrome_binary_location
 options.add_argument("--headless=new")
 options.add_argument('--no-sandbox')
 options.add_argument("--disable-gpu")
@@ -25,20 +36,26 @@ options.add_argument("--remote-debugging-port=9222")
 chrome = webdriver.Chrome(options=options, service=service)
 
 
-# lambda handler entry point
+# lambda handler entry point - configured via Dockerfile / Serverless.yml
 def handler(event=None, context=None):
-    print("Python version")
-    print(sys.version)
-    print("Version info.")
-    print(sys.version_info)
+    # print("Python version")
+    # print(sys.version)
+    # print("Version info.")
+    # print(sys.version_info)
 
-    for key, value in os.environ.items():
-        print(f"{key}: {value}")
+    print(event)
+    print(context)
 
     chrome.get("https://example.com/")
-
-    return environ.get("TEST_ENV") + "HITHERE" + chrome.find_element(by=By.XPATH, value="//html").text
+    return chrome.find_element(by=By.XPATH, value="//html").text
 
 
 def local_handler(event=None, context=None):
     print("hi local python")
+    chrome.get("https://example.com/")
+    print(chrome.find_element(by=By.XPATH, value="//html").text)
+
+
+# When running locally, we need a new entry-point
+if __name__ == "__main__":
+    local_handler()

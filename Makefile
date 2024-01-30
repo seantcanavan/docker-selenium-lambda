@@ -6,6 +6,7 @@ deploy-staging:
 deps:
 	@. ~/.nvm/nvm.sh; nvm use; node --version
 	sudo pacman -Syu --needed docker pyenv
+	yay -Syu chromedriver
 	sudo systemctl start docker.service
 	sudo systemctl enable docker.service
 	npm install -g serverless
