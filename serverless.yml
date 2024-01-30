@@ -1,9 +1,12 @@
+org: f72e1c13062e4f45ad951530acf9e5a7
+app: docker-selenium-lambda
 service: docker-selenium-lambda
+
+configValidationMode: error
+frameworkVersion: ">=3"
 
 provider:
   name: aws
-  stage: ${opt:stage, 'prod'}
-  region: ${env:AWS_REGION, 'us-east-1'}
   ecr:
     images:
       img:
