@@ -11,11 +11,11 @@ deps:
 	npm install -g serverless
 
 python:
-	pyenv install 3.12.0
-	python3 -m venv venv
+	pyenv install 3.12.0 # install 3.12.0 (matches the build image)
+	pyenv local 3.12.0 # set 3.12.0 as the local interpreter to use with pyenv
+	pyenv exec python3 -m venv venv # create a local virtual environment with python 3.12.0
 
 pipenv:
-	#python3 -m ensurepip --upgrade
 	pip3 install --upgrade pip
 	pip3 install pipenv
 	pipenv --python 3.12
