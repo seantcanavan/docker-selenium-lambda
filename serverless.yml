@@ -7,6 +7,9 @@ frameworkVersion: ">=3"
 
 provider:
   name: aws
+  environment:
+    TEST_ENV: ${param:TEST_ENV}
+#  runtime: python3.12 - I don't think we need this since we're running a docker image
   ecr:
     images:
       img:
@@ -16,7 +19,6 @@ provider:
 functions:
   demo:
     timeout: 60
-    # If you experience any errors such as Chrome crashing or not being available you might need to increase the storage available to your Lambda Function. See #102
     memorySize: 2048
     image:
       name: img
