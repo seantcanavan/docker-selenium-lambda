@@ -9,7 +9,9 @@ provider:
   name: aws
   environment:
     TEST_ENV: ${param:TEST_ENV}
-#  runtime: python3.12 - I don't think we need this since we're running a docker image
+    CHROME_DRIVER_LOCATION: "/opt/chromedriver"
+    CHROME_BINARY_LOCATION: "/opt/chrome/chrome"
+  #  runtime: python3.12 - I don't think we need this since we're running a docker image
   ecr:
     images:
       img:

@@ -4,8 +4,6 @@ FROM public.ecr.aws/lambda/python@sha256:c95e0a2af8bd2bb58e9de147305d30a6e8e5982
 # Set the environment variable
 #ENV TEST_ENV=$TEST_ENV
 
-ENV CHROME_DRIVER_LOCATION="/opt/chromedriver"
-ENV CHROME_BINARY_LOCATION="/opt/chrome/chrome"
 
 RUN dnf install -y unzip && \
     curl -Lo "/tmp/chromedriver-linux64.zip" "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/121.0.6167.85/linux64/chromedriver-linux64.zip" && \
