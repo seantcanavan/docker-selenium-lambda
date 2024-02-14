@@ -3,6 +3,9 @@ SHELL := /bin/bash
 deploy-staging:
 	serverless deploy --verbose --force --stage staging --region us-east-2 --org f72e1c13062e4f45ad951530acf9e5a7
 
+deploy-production:
+	serverless deploy --verbose --force --stage production --region us-east-2 --org f72e1c13062e4f45ad951530acf9e5a7
+
 # install os-level dependencies (arch linux)
 deps:
 	@. ~/.nvm/nvm.sh; nvm use; node --version
